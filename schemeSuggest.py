@@ -4,17 +4,6 @@ import difflib
 import diff_match_patch as dmp_module
 
 
-'''
-def getDiffChars(string1, string2):
-	return [i for i in range(len(string1)) if string1[i] != string2[i]]
-
-
-def getColourMap(line1, line2):
-	chars = getDiffChars(line1, line2)
-	line1[char] line2[char]
-'''
-
-
 def getColourMap(line1, line2):
 	diff = difflib.SequenceMatcher(None, line1, line2)
 	colourMap = []
@@ -27,13 +16,6 @@ def getColourMap(line1, line2):
 		if diff[index][0] == -1:
 			colourMap = (tuple(diff[index][1].split(",")), tuple(diff[index+1][1].split(",")))
 
-
-	'''
-	matches = diff.get_matching_blocks()
-	for index in range(len(matches) - 1):
-		colourMap.append((line1[matches[index].a + matches[index].size: matches[index+1].a],
-		line2[matches[index].b + matches[index].size: matches[index+1].b] ))
-	'''
 	return colourMap
 
 
