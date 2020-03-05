@@ -36,7 +36,7 @@ def fuzzReplaceOne(parts_fuzz, replaceWith, outText, mode):
 	"""
 	if "hex" in mode:
 		replaceText = re.compile(re.escape(
-			hex(parts_fuzz[0])[2:4]+","+hex(parts_fuzz[1])[2:4]+","+hex(parts_fuzz[2])[2:4]
+			hex(parts_fuzz[0])[2:4]+hex(parts_fuzz[1])[2:4]+hex(parts_fuzz[2])[2:4]
 		), re.IGNORECASE)
 	elif "dec" in mode:
 		# Round and do extras
