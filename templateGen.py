@@ -38,6 +38,7 @@ def fuzzReplaceOne(parts_fuzz, replaceWith, outText, mode):
 		replaceText = re.compile(re.escape(
 			hex(parts_fuzz[0])[2:4]+hex(parts_fuzz[1])[2:4]+hex(parts_fuzz[2])[2:4]
 		), re.IGNORECASE)
+		outText = replaceText.sub("{{"+replaceWith+"-hex}}", outText)
 	elif "dec" in mode:
 		# Round and do extras
 		part0_dec = parts_fuzz[0]/255
@@ -49,20 +50,22 @@ def fuzzReplaceOne(parts_fuzz, replaceWith, outText, mode):
 				str(round(part1_dec, decimalPlaces))+","+
 				str(round(part2_dec, decimalPlaces))
 			), re.IGNORECASE)
-		outText = replaceText.sub("{{"+replaceWith+"-rgb-r}},{{"+
-			replaceWith+"-rgb-g}},{{"+replaceWith+"-rgb-b}}", outText)
+		outText = replaceText.sub("{{"+replaceWith+"-dec-r}},{{"+
+			replaceWith+"-dec-g}},{{"+replaceWith+"-dec-b}}", outText)
 
 		# As with others
 		replaceText = re.compile(re.escape(
 			str(part0_dec)+","+str(part1_dec)+","+str(part2_dec)
 		), re.IGNORECASE)
+		outText = replaceText.sub("{{"+replaceWith+"-dec-r}},{{"+
+		replaceWith+"-dec-g}},{{"+replaceWith+"-dec-b}}", outText)
 	else:
 		replaceText = re.compile(re.escape(
 			str(parts_fuzz[0])+","+str(parts_fuzz[1])+","+str(parts_fuzz[2])
 		), re.IGNORECASE)
-
-	outText = replaceText.sub("{{"+replaceWith+"-rgb-r}},{{"+
+		outText = replaceText.sub("{{"+replaceWith+"-rgb-r}},{{"+
 		replaceWith+"-rgb-g}},{{"+replaceWith+"-rgb-b}}", outText)
+
 	return outText
 
 
