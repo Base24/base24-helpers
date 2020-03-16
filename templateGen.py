@@ -2,9 +2,8 @@
 Genrate a base24 template from a theme and a scheme
 """
 import argparse
-import yaml
 import re
-
+import yaml
 
 def get_yaml_dict(yaml_file):
 	"""Return a yaml_dict from reading yaml_file. If yaml_file is empty or
@@ -36,7 +35,7 @@ def fuzzReplaceOne(parts_fuzz, replaceWith, outText, mode):
 	"""
 	if "hex" in mode:
 		replaceText = re.compile(re.escape(
-			hex(parts_fuzz[0])[2:4]+hex(parts_fuzz[1])[2:4]+hex(parts_fuzz[2])[2:4]
+			"{:02x}".format(parts_fuzz[0])+"{:02x}".format(parts_fuzz[1])+"{:02x}".format(parts_fuzz[2])[2:4]
 		), re.IGNORECASE)
 		outText = replaceText.sub("{{"+replaceWith+"-hex}}", outText)
 	elif "dec" in mode:
@@ -130,7 +129,8 @@ if __name__ == "__main__":
 	parser.add_argument("theme",
 	help="relative or abs path to the theme file")
 	parser.add_argument("--mode", action="store", default="hexhash",
-	help="color format: hex (ff00aa), reversehex (aa00ff), rgb (255,0,170), reversergb (170,0,255), dec (1.0,0,0.666), reversedec (0.666,0,1.0)")
+	help="""color format: hex (ff00aa), reversehex (aa00ff), rgb (255,0,170),
+	reversergb (170,0,255), dec (1.0,0,0.666), reversedec (0.666,0,1.0)""")
 	parser.add_argument("--fuzz", action="store", default=0,
 	help="find 'close' colours and replace these ((r,g,b)+-fuzz: default=0, max-recommended=5)")
 	args = parser.parse_args()

@@ -1,4 +1,6 @@
-
+"""Suggest scheme colours based on a template and a theme file. eg
+kde-plasma template and a kde-plasma theme
+"""
 import argparse
 import difflib
 import diff_match_patch as dmp_module
@@ -41,11 +43,11 @@ def schemeSuggest(template, theme, mode):
 					colour = element[1]
 
 				if "rgb" in mode:
-					colour = hex(int(colour[0]))[2:4]+hex(int(colour[1]))[2:4]+hex(int(colour[2]))[2:4]
+					colour = "{:02x}".format(int(colour[0]))+"{:02x}".format(int(colour[1]))+"{:02x}".format(int(colour[2]))
 				elif "dec" in mode:
-					colour = hex(int(colour[0])*255)[2:4]+hex(int(colour[1])*255)[2:4]+hex(int(colour[2])*255)[2:4]
+					colour = "{:02x}".format(int(colour[0])*255)+"{:02x}".format(int(colour[1])*255)+"{:02x}".format(int(colour[2])*255)
 
-				print("\033["+ ";".join(["48","2",str(int(colour[0:2], 16)),str(int(colour[2:4], 16)),str(int(colour[4:6], 16))]) + "m     \033[0m #" + colour)
+				print("\033["+ ";".join(["48", "2", str(int(colour[0:2], 16)),str(int(colour[2:4], 16)),str(int(colour[4:6], 16))]) + "m     \033[0m #" + colour)
 			except:
 				pass
 
@@ -60,7 +62,8 @@ if __name__ == "__main__":
 	parser.add_argument("theme",
 	help="relative or abs path to the theme file")
 	parser.add_argument("--mode", action="store", default="hexhash",
-	help="color format: hex (ff00aa), reversehex (aa00ff), rgb (255,0,170), reversergb (170,0,255), dec (1.0,0,0.666), reversedec (0.666,0,1.0)")
+	help="""color format: hex (ff00aa), reversehex (aa00ff), rgb (255,0,170),
+	reversergb (170,0,255), dec (1.0,0,0.666), reversedec (0.666,0,1.0)""")
 
 	args = parser.parse_args()
 	schemeSuggest(args.template, args.theme, args.mode)
