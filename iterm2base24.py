@@ -23,9 +23,14 @@ def iterm2hex(root):
 	iterm = {}
 	for i, _key in enumerate(keys):
 		keyName = keys[i].text
-		r = int(float(dicts[i][1].text) * 255.0)
-		g = int(float(dicts[i][3].text) * 255.0)
-		b = int(float(dicts[i][5].text) * 255.0)
+		r = g = b = None
+		for index, item in enumerate(dicts[i]):
+			if "Red" in item.text:
+				r = int(float(dicts[i][index+1].text) * 255.0)
+			if "Green" in item.text:
+				g = int(float(dicts[i][index+1].text) * 255.0)
+			if "Blue" in item.text:
+				b = int(float(dicts[i][index+1].text) * 255.0)
 		iterm[keyName] = rgb_to_hex((r, g, b))
 	return iterm
 
