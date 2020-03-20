@@ -60,11 +60,11 @@ def genBase24(filename, iterm):
 		"base0C": "Ansi 6 Color",
 		"base0D": "Ansi 4 Color",
 		"base0E": "Ansi 5 Color",
-		"base12": "Ansi 10 Color",
-		"base13": "Ansi 12 Color",
-		"base14": "Ansi 11 Color",
+		"base12": "Ansi 9 Color",
+		"base13": "Ansi 11 Color",
+		"base14": "Ansi 10 Color",
 		"base15": "Ansi 14 Color",
-		"base16": "Ansi 9 Color",
+		"base16": "Ansi 12 Color",
 		"base17": "Ansi 13 Color",
 	}
 
@@ -115,7 +115,7 @@ def main():
 	base24 = genBase24(filename, iterm2hex(tree.getroot()))
 
 
-	with open(base24["scheme"]+".yml", "w") as outfile:
+	with open(base24["scheme"]+".yaml", "w") as outfile:
 		yaml.dump(base24, outfile)
 
 if __name__ == '__main__':

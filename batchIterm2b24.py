@@ -22,7 +22,7 @@ def main():
 		directory = "batchSchemes"
 		if not os.path.exists(directory):
 			os.makedirs(directory)
-		with open(os.path.join(directory, base24["scheme"]+".yml"), "w") as outfile:
+		with open(os.path.join(directory, base24["scheme"]+".yaml"), "w") as outfile:
 			yaml.dump(base24, outfile)
 
 if __name__ == "__main__":
