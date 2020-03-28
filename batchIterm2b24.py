@@ -1,15 +1,24 @@
+#!/usr/bin/env python3
 """Convert .itermcolors to base24 scheme in a directory
 """
 import sys
 import os
 import yaml
 import defusedxml.ElementTree as ET
+from metprint import (
+	LogType,
+	Logger
+)
 import iterm2base24
 
 def main():
 	''' Main entry point for cli '''
+	# Check for and report level8 errors
 	if len(sys.argv) < 2:
-		print("usage: ./convert_itermcolors.py itermschemes")
+		Logger().logPrint("usage: ./iterm2base24.py itermschemes", LogType.ERROR)
+		sys.exit(1)
+	if not os.path.isdir(sys.argv[1]):
+		Logger().logPrint(sys.argv[1] + " is not a valid directory", LogType.ERROR)
 		sys.exit(1)
 
 	for file in os.listdir(sys.argv[1]):
@@ -23,6 +32,7 @@ def main():
 		if not os.path.exists(directory):
 			os.makedirs(directory)
 		with open(os.path.join(directory, base24["scheme"]+".yaml"), "w") as outfile:
+			Logger().logPrint("writing \"" + base24["scheme"] + "\" to file", LogType.SUCCESS)
 			yaml.dump(base24, outfile)
 
 if __name__ == "__main__":
