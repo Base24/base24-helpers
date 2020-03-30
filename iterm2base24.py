@@ -4,12 +4,14 @@
 
 import os
 import sys
+import argparse
 import defusedxml.ElementTree as ET
 import yaml
 from metprint import (
 	LogType,
 	Logger
 )
+import base24tools
 
 def rgb_to_hex(rgb):
 	''' Converts rgb to hex '''
@@ -74,68 +76,22 @@ def genBase24(filename, iterm):
 		"base17": "Ansi 13 Color", #Bright purple
 	}
 
-	# Keys apart from base03, base04, base05, base0F, base10, base11 can be
-	# taken from iterm
-	for key in base24lookup:
-		base24[key] = iterm[base24lookup[key]]
-
-	# Is it really a base16 theme? Compare red and bright red to find out
-	if base24["base08"] == base24["base12"]:
-		Logger().logPrint("\"" + base24["scheme"] + "\" is a base16 theme", LogType.WARNING)
-		base24["scheme"] = "b16" + base24["scheme"]
-
-	# Keys base03, base04, base05, base0F, base10, base11 can be calculated
-	#Background through Foreground
-	bg = base24["base02"]
-	fg = base24["base06"]
-	for index in range(3, 6):
-		mult = index - 2
-		baseVal = []
-		for section in range(0, 5, 2):
-			baseVal.append("{:02x}".format(int(bg[0+section:2+section], 16) + int(
-				(int(fg[0+section:2+section], 16) - int(bg[0+section:2+section], 16)) * mult / 4
-				)
-			))
-		base24["base0"+str(index)] = "".join(baseVal)
-
-	#Darker and darkest backgrounds
-	for index in range(10, 12):
-		mult = 12 - index
-		baseVal = []
-		for section in range(0, 5, 2):
-			baseVal.append("{:02x}".format(int(int(bg[0+section:2+section], 16) * mult / 3)
-			))
-		base24["base"+str(index)] = "".join(baseVal)
-
-	#Dark red (variant 2)
-	baseVal = []
-	for section in range(0, 5, 2):
-		baseVal.append("{:02x}".format(int(int(base24["base08"][0+section:2+section], 16) / 2)
-		))
-	base24["base0F"] = "".join(baseVal)
-
-	# Have the other colours been calculated correctly? Count the number of
-	# 000000s
-	listOf000000s = [base24[key] for key in base24 if base24[key] == "000000"]
-	if len(listOf000000s) > 2: # 2 seems a sensible threshold
-		Logger().logPrint("\"" + base24["scheme"].replace("b16", "") + "\" is probably corrupted",
-		LogType.WARNING)
-		base24["scheme"] = "warn0s" + base24["scheme"]
-
-	return base24
+	return base24tools.process(base24, base24lookup, iterm, 2, 6)
 
 
 def main():
 	''' Main entry point for cli '''
+	parser = argparse.ArgumentParser(
+	description="Convert .itermcolors to base24 scheme")
+	parser.add_argument("file", action="store",
+	help="file.itermschemes")
+	args = parser.parse_args()
 	# Check for and report level8 errors
-	if len(sys.argv) < 2:
-		Logger().logPrint("usage: ./iterm2base24.py file.itermcolors", LogType.ERROR)
-		sys.exit(1)
-	if not os.path.isfile(sys.argv[1]):
-		Logger().logPrint(sys.argv[1] + " is not a valid file", LogType.ERROR)
+	if not os.path.isfile(args.file):
+		Logger().logPrint(args.file + " is not a valid file", LogType.ERROR)
 		sys.exit(1)
 
-	filename = sys.argv[1]
+	filename = args.file
 	tree = ET.parse(filename)
 
 	base24 = genBase24(filename, iterm2hex(tree.getroot()))
