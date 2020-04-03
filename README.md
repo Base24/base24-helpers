@@ -14,11 +14,13 @@
 Helper programs to create templates and schemes.
 
 - [base24tools.py](#base24toolspy)
+- [baseCompare.py](#basecomparepy)
 - [batchIterm2b24.py](#batchiterm2b24py)
 - [iterm2base24.py](#iterm2base24py)
 - [windowsTerminal2b24.py](#windowsterminal2b24py)
 - [schemeSuggest.py](#schemesuggestpy)
 - [templateGen.py](#templategenpy)
+- [schemeTableGen.py](#schemetablegenpy)
 - [Language information](#language-information)
 	- [Built for](#built-for)
 - [Install Python on Windows](#install-python-on-windows)
@@ -56,6 +58,23 @@ def process(base24, base24lookup, sourceThemeDict, bgNumber, fgNumber):
 	Returns:
 		dict: base24 dict to write to scheme file
 	"""
+```
+
+## baseCompare.py
+
+Compare base16 and base24 Windows terminal themes quickly
+
+```bash
+usage: baseCompare.py [-h] [--all] themes
+
+Compare base16 and base24 windows terminal themes quickly
+
+positional arguments:
+  themes      directory containing generated windows terminal themes
+
+optional arguments:
+  -h, --help  show this help message and exit
+  --all       compare all schemes
 ```
 
 ## batchIterm2b24.py
@@ -146,6 +165,22 @@ optional arguments:
   --fuzz FUZZ    find 'close' colours and replace these ((r,g,b)+-fuzz: default=0, max-recommended=5)
 ```
 
+
+## schemeTableGen.py
+
+Generate a table to put in a scheme project readme
+
+```bash
+usage: schemeTableGen.py [-h] scheme
+
+Generate a table to put in a scheme project readme
+
+positional arguments:
+  scheme      base24 scheme file
+
+optional arguments:
+  -h, --help  show this help message and exit
+```
 
 ## Language information
 ### Built for

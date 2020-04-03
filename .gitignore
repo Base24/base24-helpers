@@ -1,6 +1,9 @@
 /examples
 /schemes
 /batchSchemes
+/test
+/output
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

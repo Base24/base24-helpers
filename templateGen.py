@@ -35,7 +35,7 @@ def fuzzReplaceOne(parts_fuzz, replaceWith, outText, mode):
 	"""
 	if "hex" in mode:
 		replaceText = re.compile(re.escape(
-			"{:02x}".format(parts_fuzz[0])+"{:02x}".format(parts_fuzz[1])+"{:02x}".format(parts_fuzz[2])[2:4]
+			"{:02x}".format(parts_fuzz[0])+"{:02x}".format(parts_fuzz[1])+"{:02x}".format(parts_fuzz[2])
 		), re.IGNORECASE)
 		outText = replaceText.sub("{{"+replaceWith+"-hex}}", outText)
 	elif "dec" in mode:
@@ -128,7 +128,7 @@ if __name__ == "__main__":
 	help="relative or abs path to the base24 colour scheme")
 	parser.add_argument("theme",
 	help="relative or abs path to the theme file")
-	parser.add_argument("--mode", action="store", default="hexhash",
+	parser.add_argument("--mode", action="store", default="hex",
 	help="""color format: hex (ff00aa), reversehex (aa00ff), rgb (255,0,170),
 	reversergb (170,0,255), dec (1.0,0,0.666), reversedec (0.666,0,1.0)""")
 	parser.add_argument("--fuzz", action="store", default=0,
