@@ -8,6 +8,8 @@ import pystache
 
 
 template = '''
+# project-name
+
 Base24 scheme for {{scheme-name}}
 
 |baseNN|Colour|
@@ -36,6 +38,10 @@ Base24 scheme for {{scheme-name}}
 |base15|![#](https://placehold.it/25/{{base15-hex}}/000000?text=+)
 |base16|![#](https://placehold.it/25/{{base16-hex}}/000000?text=+)
 |base17|![#](https://placehold.it/25/{{base17-hex}}/000000?text=+)
+
+proj-down
+
+proj-community
 '''
 
 def get_yaml_dict(yaml_file):
