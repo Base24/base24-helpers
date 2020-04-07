@@ -6,9 +6,9 @@ import argparse
 import yaml
 import pystache
 
-
+# You may want to edit this to better suit your needs
 template = '''
-# project-name
+# base24-{{scheme-name-0}}-scheme
 
 Base24 scheme for {{scheme-name}}
 
@@ -58,6 +58,7 @@ def format_scheme(scheme):
 	"""Change $scheme so it can be applied to a template."""
 	scheme["scheme-name"] = scheme.pop("scheme")
 	scheme["scheme-author"] = scheme.pop("author")
+	scheme["scheme-name-0"] = scheme["scheme-name"].replace(" ", "-").replace("_", "-").lower()
 	bases = ["base{:02X}".format(x) for x in range(0, 24)]
 	for base in bases:
 		scheme["{}-hex".format(base)] = scheme.pop(base)
@@ -76,7 +77,7 @@ def main():
 		print(args.scheme + " is not a valid file")
 		sys.exit(1)
 
-
+	# Do the mustche template mangling and output to stdout
 	scheme = get_yaml_dict(args.scheme)
 	format_scheme(scheme)
 	file_content = pystache.render(template, scheme)
